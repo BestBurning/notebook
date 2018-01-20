@@ -1,0 +1,25 @@
+spring:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/notebook
+    username: root
+    password: admin
+
+  redis:
+    host: server03
+    port: 6379
+    password: admin
+    timeout: 3000
+
+hbase:
+  zookeeper:
+    quorum: server01,server02,server03
+  pool:
+    size: 100
+  #writeBufferSize的单位是byte字节数1024*512
+  write:
+    buffer: 524288
