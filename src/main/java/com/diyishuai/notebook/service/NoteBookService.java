@@ -29,7 +29,7 @@ public class NoteBookService {
         List<NoteBook> noteBooks = new ArrayList<>();
         //先查redis
         List<String> list = redisDao.getList(userId.toString());
-        if (noteBooks!=null || !noteBooks.isEmpty()){
+        if (noteBooks!=null && !noteBooks.isEmpty()){
             for (String noteStr : list) {
                 NoteBook noteBook = new NoteBook();
                 String[] noteArr = noteStr.split("\\"+Constants.STRING_SEPARATOR);
@@ -63,6 +63,12 @@ public class NoteBookService {
                 );
 
             }
+            //将hbase中的信息加载到redis中
+            if (!noteBooks.isEmpty()){
+                noteBooks.stream().forEach(
+                        noteBook -> redisDao.appendRightList(userId.toString(), noteBook.toString())
+                );
+            };
         }
         return noteBooks;
     }
